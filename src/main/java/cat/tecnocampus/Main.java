@@ -2,6 +2,7 @@
 package cat.tecnocampus;
 
 import cat.tecnocampus.tinySpring.*;
+import cat.tecnocampus.tinySpring.core.LiteSpringBoot;
 
 public class Main {
     public static void main(String[] args) {

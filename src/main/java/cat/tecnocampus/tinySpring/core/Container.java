@@ -1,4 +1,6 @@
-package cat.tecnocampus.tinySpring;
+package cat.tecnocampus.tinySpring.core;
+
+import cat.tecnocampus.tinySpring.core.annotation.Autowired;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

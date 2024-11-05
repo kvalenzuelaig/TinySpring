@@ -1,4 +1,6 @@
-package cat.tecnocampus.tinySpring;
+package cat.tecnocampus.tinySpring.core;
+
+import cat.tecnocampus.tinySpring.core.annotation.Component;
 
 import java.io.File;
 import java.io.IOException;

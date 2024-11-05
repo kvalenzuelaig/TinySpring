@@ -3,7 +3,7 @@ package cat.tecnocampus.tinySpring;
 // Fake HTTP request class
 public class HttpRequest {
     String method;
-    String path;
+    public String path;
 
     public HttpRequest(String method, String path) {
         this.method = method;

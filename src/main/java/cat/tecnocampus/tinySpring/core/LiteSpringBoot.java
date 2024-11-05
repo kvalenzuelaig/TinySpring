@@ -1,6 +1,9 @@
-package cat.tecnocampus.tinySpring;
+package cat.tecnocampus.tinySpring.core;
 
 import cat.tecnocampus.application.MyController;
+import cat.tecnocampus.tinySpring.HttpRequest;
+import cat.tecnocampus.tinySpring.HttpResponse;
+import cat.tecnocampus.tinySpring.RequestMapping;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -9,7 +12,6 @@ import java.util.Set;
 // Simple web framework
 public class LiteSpringBoot {
     private Container container = new Container();
-    //private ComponentScanReflexionLibrary componentScan = new ComponentScanReflexionLibrary("cat.tecnocampus.application");
     private ComponentScan componentScan = new ComponentScan("cat.tecnocampus.application");
 
     public LiteSpringBoot(String basePackage) {
@@ -25,15 +27,13 @@ public class LiteSpringBoot {
 
         // Register all components
         for (Class<?> clazz : componentClasses) {
-            if (clazz.isAnnotationPresent(Component.class) || clazz.isAnnotationPresent(Service.class)) {
-                try {
-                    Object instance = clazz.getDeclaredConstructor().newInstance();
-                    container.register(clazz, instance);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            try {
+                Object instance = clazz.getDeclaredConstructor().newInstance();
+                container.register(clazz, instance);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }
+    }
 
         // Autowire dependencies after registering components
         for (Object instance : container.getInstances().values()) {

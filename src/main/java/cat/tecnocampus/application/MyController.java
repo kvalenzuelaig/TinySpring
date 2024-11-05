@@ -1,6 +1,8 @@
 package cat.tecnocampus.application;
 
 import cat.tecnocampus.tinySpring.*;
+import cat.tecnocampus.tinySpring.core.annotation.Autowired;
+import cat.tecnocampus.tinySpring.core.annotation.Component;
 
 import java.util.Map;
 
