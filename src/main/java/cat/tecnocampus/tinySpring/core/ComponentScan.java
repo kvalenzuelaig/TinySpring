@@ -23,7 +23,10 @@ public class ComponentScan {
         Set<Class<?>> components = new HashSet<>();
 
         List<File> classes = getFilesOfClassesInBasePackage();
-        classes.stream().map(this::getClassFromFile).filter(this::isComponent).forEach(c -> components.add(c));
+        classes.stream()
+                .map(this::getClassFromFile)
+                .filter(this::isComponent)
+                .forEach(c -> components.add(c));
         return components;
     }
 

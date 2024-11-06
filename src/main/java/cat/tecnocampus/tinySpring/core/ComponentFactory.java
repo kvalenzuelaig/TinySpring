@@ -2,14 +2,19 @@ package cat.tecnocampus.tinySpring.core;
 
 import cat.tecnocampus.tinySpring.core.annotation.Autowired;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Set;
 
+
 public class ComponentFactory {
     private final ApplicationContainer applicationContainer;
     private final ComponentScan componentScan;
+    private final Logger logger = LoggerFactory.getLogger(ComponentFactory.class);
 
     public ComponentFactory(String packageName) {
         this.applicationContainer = new ApplicationContainer();
@@ -22,6 +27,7 @@ public class ComponentFactory {
 
     public void buildContext() {
         Set<Class<?>> componentClasses = getComponentClasses();
+        logComponentClasses(componentClasses);
         componentClasses.stream()
                 .map(this::newComponentObject)
                 .forEach(o -> applicationContainer.register(o.getClass(), o));
@@ -68,5 +74,9 @@ public class ComponentFactory {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void logComponentClasses(Set<Class<?>> componentClasses) {
+        componentClasses.forEach(c -> logger.info("Discovered Component class: {}", c.getName()));
     }
 }

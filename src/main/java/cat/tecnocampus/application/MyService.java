@@ -1,9 +1,10 @@
 package cat.tecnocampus.application;
 
 import cat.tecnocampus.tinySpring.core.annotation.Autowired;
+import cat.tecnocampus.tinySpring.core.annotation.Component;
 import cat.tecnocampus.tinySpring.core.annotation.Service;
 
-@Service
+@Component
 public class MyService {
     @Autowired
     MyOtherService myOtherService;
