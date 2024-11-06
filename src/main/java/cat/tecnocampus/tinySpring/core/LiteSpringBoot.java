@@ -11,39 +11,16 @@ import java.util.Set;
 
 // Simple web framework
 public class LiteSpringBoot {
-    private Container container = new Container();
-    private ComponentScan componentScan = new ComponentScan("cat.tecnocampus.application");
+    private final ComponentFactory componentFactory;
 
     public LiteSpringBoot(String basePackage) {
+        componentFactory = new ComponentFactory(basePackage);
 
-        Set<Class<?>> componentClasses = null;
-        try {
-            componentClasses = componentScan.componentScan();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        // Register all components
-        for (Class<?> clazz : componentClasses) {
-            try {
-                Object instance = clazz.getDeclaredConstructor().newInstance();
-                container.register(clazz, instance);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-    }
-
-        // Autowire dependencies after registering components
-        for (Object instance : container.getInstances().values()) {
-            container.autowire(instance);
-        }
     }
 
     public HttpResponse handleRequest(HttpRequest request) {
         // Find the appropriate request handler and invoke it
-        Object handler = container.getBean(requestHandlerFor(request));
+        Object handler = componentFactory.getContainer().getBean(requestHandlerFor(request));
         if (handler != null) {
             try {
                 Method[] methods = handler.getClass().getMethods();
