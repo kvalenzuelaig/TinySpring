@@ -1,4 +1,4 @@
-package cat.tecnocampus.tinySpring;
+package cat.tecnocampus.tinySpring.webProject;
 
 // Fake HTTP request class
 public class HttpRequest {

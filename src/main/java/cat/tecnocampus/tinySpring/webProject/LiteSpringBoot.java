@@ -1,26 +1,21 @@
-package cat.tecnocampus.tinySpring.core;
+package cat.tecnocampus.tinySpring.webProject;
 
 import cat.tecnocampus.application.MyController;
-import cat.tecnocampus.tinySpring.HttpRequest;
-import cat.tecnocampus.tinySpring.HttpResponse;
-import cat.tecnocampus.tinySpring.RequestMapping;
+import cat.tecnocampus.tinySpring.core.ComponentFactory;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Set;
 
 // Simple web framework
 public class LiteSpringBoot {
     private final ComponentFactory componentFactory;
 
-    public LiteSpringBoot(String basePackage) {
-        componentFactory = new ComponentFactory(basePackage);
-
+    public LiteSpringBoot(ComponentFactory componentFactory) {
+        this.componentFactory = componentFactory;
     }
 
     public HttpResponse handleRequest(HttpRequest request) {
         // Find the appropriate request handler and invoke it
-        Object handler = componentFactory.getContainer().getBean(requestHandlerFor(request));
+        Object handler = componentFactory.getContainer().getComponentOfType(requestHandlerFor(request));
         if (handler != null) {
             try {
                 Method[] methods = handler.getClass().getMethods();
