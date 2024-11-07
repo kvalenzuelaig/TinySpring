@@ -3,8 +3,10 @@ package cat.tecnocampus.tinySpring.webProject;
 import cat.tecnocampus.application.MyController;
 import cat.tecnocampus.tinySpring.core.ApplicationContextContainer;
 import cat.tecnocampus.tinySpring.core.ComponentFactory;
+import cat.tecnocampus.tinySpring.core.annotation.RestController;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 public class SimpleWebFramework {
     private final ApplicationContextContainer contextContainer;
@@ -14,8 +16,7 @@ public class SimpleWebFramework {
     }
 
     public HttpResponse handleRequest(HttpRequest request) {
-        // Find the appropriate request handler and invoke it
-        Object handler = contextContainer.getComponentOfType(requestHandlerFor(request));
+        Object handler = requestHandlerFor(request);
         if (handler != null) {
             try {
                 Method[] methods = handler.getClass().getMethods();
@@ -34,8 +35,10 @@ public class SimpleWebFramework {
         return null;
     }
 
-    private Class<?> requestHandlerFor(HttpRequest request) {
-        // Simple logic to find the request handler based on the request path
-        return MyController.class; // TODO: get the controller from the application context
+    private Object requestHandlerFor(HttpRequest request) {
+        //we could have more than one RestController and should return the one that matches the request
+        return contextContainer.getComponents().stream()
+                .filter(c -> c.getClass().isAnnotationPresent(RestController.class))
+                .findFirst().orElseThrow(() -> new RuntimeException("No RestController found"));
     }
 }

@@ -1,15 +1,14 @@
 package cat.tecnocampus.application;
 
 import cat.tecnocampus.tinySpring.core.annotation.Autowired;
-import cat.tecnocampus.tinySpring.core.annotation.Component;
+import cat.tecnocampus.tinySpring.core.annotation.RestController;
 import cat.tecnocampus.tinySpring.webProject.HttpRequest;
 import cat.tecnocampus.tinySpring.webProject.HttpResponse;
 import cat.tecnocampus.tinySpring.webProject.RequestMapping;
 
 import java.util.Map;
 
-// Example controller
-@Component
+@RestController
 public class MyController {
     @Autowired
     private MyService myService;

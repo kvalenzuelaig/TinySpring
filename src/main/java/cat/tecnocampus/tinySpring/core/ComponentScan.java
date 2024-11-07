@@ -5,6 +5,9 @@ import cat.tecnocampus.tinySpring.core.annotation.Component;
 import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -31,13 +34,15 @@ public class ComponentScan {
     }
 
     private boolean isComponent(Class<?> clazz) {
-
+        if (clazz.equals(Retention.class) || clazz.equals(Documented.class) || clazz.equals(Target.class)) { // to avoid infinite loop since Retention <--> Documented
+            return false;
+        }
         if (clazz.isAnnotationPresent(Component.class)) {
             return true;
         }
         Annotation[] annotations = clazz.getAnnotations();
         for (Annotation annotation : annotations) {
-            return isComponent(annotation.annotationType());
+            if (isComponent(annotation.annotationType())) return true;
         }
         return false;
     }
