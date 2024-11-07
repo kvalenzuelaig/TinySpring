@@ -1,8 +1,8 @@
 package cat.tecnocampus.tinySpring.core;
 
-import cat.tecnocampus.tinySpring.webProject.HttpRequest;
-import cat.tecnocampus.tinySpring.webProject.HttpResponse;
-import cat.tecnocampus.tinySpring.webProject.SimpleWebFramework;
+import cat.tecnocampus.tinySpring.webModule.HttpRequest;
+import cat.tecnocampus.tinySpring.webModule.HttpResponse;
+import cat.tecnocampus.tinySpring.webModule.SimpleWebFramework;
 
 public class TinySpringApplication {
     private static ComponentFactory componentFactory;

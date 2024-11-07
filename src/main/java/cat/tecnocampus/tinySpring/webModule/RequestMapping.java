@@ -1,4 +1,4 @@
-package cat.tecnocampus.tinySpring.webProject;
+package cat.tecnocampus.tinySpring.webModule;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

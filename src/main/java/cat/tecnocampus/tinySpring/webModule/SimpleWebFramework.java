@@ -1,12 +1,9 @@
-package cat.tecnocampus.tinySpring.webProject;
+package cat.tecnocampus.tinySpring.webModule;
 
-import cat.tecnocampus.application.MyController;
 import cat.tecnocampus.tinySpring.core.ApplicationContextContainer;
-import cat.tecnocampus.tinySpring.core.ComponentFactory;
 import cat.tecnocampus.tinySpring.core.annotation.RestController;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 public class SimpleWebFramework {
     private final ApplicationContextContainer contextContainer;

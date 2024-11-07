@@ -2,9 +2,9 @@ package cat.tecnocampus.application;
 
 import cat.tecnocampus.tinySpring.core.annotation.Autowired;
 import cat.tecnocampus.tinySpring.core.annotation.RestController;
-import cat.tecnocampus.tinySpring.webProject.HttpRequest;
-import cat.tecnocampus.tinySpring.webProject.HttpResponse;
-import cat.tecnocampus.tinySpring.webProject.RequestMapping;
+import cat.tecnocampus.tinySpring.webModule.HttpRequest;
+import cat.tecnocampus.tinySpring.webModule.HttpResponse;
+import cat.tecnocampus.tinySpring.webModule.RequestMapping;
 
 import java.util.Map;
 
