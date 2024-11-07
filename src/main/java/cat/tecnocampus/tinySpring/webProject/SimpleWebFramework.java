@@ -22,7 +22,7 @@ public class SimpleWebFramework {
                 for (Method method : methods) {
                     if (method.isAnnotationPresent(RequestMapping.class)) {
                         RequestMapping mapping = method.getAnnotation(RequestMapping.class);
-                        if (mapping.value().equals(request.path)) {
+                        if (request.path.startsWith(mapping.value())) {
                             return (HttpResponse) method.invoke(handler, request);
                         }
                     }
@@ -36,6 +36,6 @@ public class SimpleWebFramework {
 
     private Class<?> requestHandlerFor(HttpRequest request) {
         // Simple logic to find the request handler based on the request path
-        return MyController.class; // Replace with your own logic
+        return MyController.class; // TODO: get the controller from the application context
     }
 }

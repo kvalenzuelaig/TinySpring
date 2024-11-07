@@ -12,7 +12,7 @@ public class TinySpringApplication {
         componentFactory.buildContext();
 
         SimpleWebFramework app = new SimpleWebFramework(componentFactory.getContextContainer());
-        HttpRequest request = new HttpRequest("GET", "/hello");
+        HttpRequest request = new HttpRequest("GET", "/hello/how are you");
         HttpResponse response = app.handleRequest(request);
         System.out.println(String.format("Response: status-> %s, body-> %s", response.getStatusCode(), response.getBody()));
     }

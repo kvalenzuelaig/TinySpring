@@ -2,11 +2,15 @@ package cat.tecnocampus.tinySpring.core;
 
 import cat.tecnocampus.tinySpring.core.annotation.Autowired;
 
+import cat.tecnocampus.tinySpring.validationAOP.Validated;
+import cat.tecnocampus.tinySpring.validationAOP.ValidationHandler;
+import cat.tecnocampus.tinySpring.validationAOP.ValidationProxyFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -29,19 +33,39 @@ public class ComponentFactory {
         Set<Class<?>> componentClasses = getComponentClasses();
         logComponentClasses(componentClasses);
         componentClasses.stream()
-                .map(this::newComponentObject)
-                .forEach(o -> applicationContextContainer.register(o.getClass(), o));
+                .map(this::newComponentObject) //instantiates an object for each class
+                .forEach(this::registerComponent);  //adds the object to the application context
 
         applicationContextContainer.getComponents().forEach(this::autowire);
+    }
+
+    private void registerComponent(Object instance) {
+        if (Proxy.isProxyClass(instance.getClass())) {
+            ValidationHandler handler = (ValidationHandler) Proxy.getInvocationHandler(instance);
+            Class<?> targetClass = handler.getTarget().getClass().getInterfaces()[0];
+            logger.info("Registering validated component: " + targetClass.getName());
+            applicationContextContainer.register(targetClass, instance);
+        } else {
+            logger.info("Registering component: " + instance.getClass().getName());
+            applicationContextContainer.register(instance.getClass(), instance);
+        }
     }
 
     private Object newComponentObject(Class<?> clazz) {
         Object componentObject = null;
         try {
-            componentObject = clazz.getDeclaredConstructor().newInstance();
+            if (clazz.isAnnotationPresent(Validated.class)) {
+                logger.info("Validating component: " + clazz.getName());
+                componentObject = ValidationProxyFactory.createProxy(clazz.getDeclaredConstructor().newInstance());
+            }
+            else {
+                componentObject = clazz.getDeclaredConstructor().newInstance();
+            }
+            //componentObject = clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //System.out.println("Component object: " + componentObject);
         return componentObject;
     }
 
