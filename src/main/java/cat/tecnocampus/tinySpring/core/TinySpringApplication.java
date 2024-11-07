@@ -14,6 +14,6 @@ public class TinySpringApplication {
         LiteSpringBoot app = new LiteSpringBoot(componentFactory);
         HttpRequest request = new HttpRequest("GET", "/hello");
         HttpResponse response = app.handleRequest(request);
-        System.out.println("Response: " + response.getBody());
+        System.out.println(String.format("Response: status-> %s, body-> %s", response.getStatusCode(), response.getBody()));
     }
 }
