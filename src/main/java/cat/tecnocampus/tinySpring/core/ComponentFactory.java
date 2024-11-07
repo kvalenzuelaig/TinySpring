@@ -70,6 +70,7 @@ public class ComponentFactory {
             field.setAccessible(true);
             try {
                 field.set(instance, dependency);
+                logAutowireInjection(instance.getClass(), dependency.getClass());
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -78,5 +79,9 @@ public class ComponentFactory {
 
     private void logComponentClasses(Set<Class<?>> componentClasses) {
         componentClasses.forEach(c -> logger.info("Discovered Component class: {}", c.getName()));
+    }
+
+    private void logAutowireInjection(Class<?> instance, Class<?> dependency) {
+        logger.info("Instance {} injected with dependency {}", instance.getName(), dependency.getName());
     }
 }
