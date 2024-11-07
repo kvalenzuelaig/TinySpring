@@ -1,21 +1,21 @@
 package cat.tecnocampus.tinySpring.webProject;
 
 import cat.tecnocampus.application.MyController;
+import cat.tecnocampus.tinySpring.core.ApplicationContextContainer;
 import cat.tecnocampus.tinySpring.core.ComponentFactory;
 
 import java.lang.reflect.Method;
 
-// Simple web framework
-public class LiteSpringBoot {
-    private final ComponentFactory componentFactory;
+public class SimpleWebFramework {
+    private final ApplicationContextContainer contextContainer;
 
-    public LiteSpringBoot(ComponentFactory componentFactory) {
-        this.componentFactory = componentFactory;
+    public SimpleWebFramework(ApplicationContextContainer contextContainer) {
+        this.contextContainer = contextContainer;
     }
 
     public HttpResponse handleRequest(HttpRequest request) {
         // Find the appropriate request handler and invoke it
-        Object handler = componentFactory.getContainer().getComponentOfType(requestHandlerFor(request));
+        Object handler = contextContainer.getComponentOfType(requestHandlerFor(request));
         if (handler != null) {
             try {
                 Method[] methods = handler.getClass().getMethods();

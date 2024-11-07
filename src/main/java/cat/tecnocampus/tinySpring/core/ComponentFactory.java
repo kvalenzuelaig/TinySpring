@@ -12,17 +12,17 @@ import java.util.Set;
 
 
 public class ComponentFactory {
-    private final ApplicationContainer applicationContainer;
+    private final ApplicationContextContainer applicationContextContainer;
     private final ComponentScan componentScan;
     private final Logger logger = LoggerFactory.getLogger(ComponentFactory.class);
 
     public ComponentFactory(String packageName) {
-        this.applicationContainer = new ApplicationContainer();
+        this.applicationContextContainer = new ApplicationContextContainer();
         this.componentScan = new ComponentScan(packageName);
     }
 
-    public ApplicationContainer getContainer() {
-        return applicationContainer;
+    public ApplicationContextContainer getContextContainer() {
+        return applicationContextContainer;
     }
 
     public void buildContext() {
@@ -30,9 +30,9 @@ public class ComponentFactory {
         logComponentClasses(componentClasses);
         componentClasses.stream()
                 .map(this::newComponentObject)
-                .forEach(o -> applicationContainer.register(o.getClass(), o));
+                .forEach(o -> applicationContextContainer.register(o.getClass(), o));
 
-        applicationContainer.getComponents().forEach(this::autowire);
+        applicationContextContainer.getComponents().forEach(this::autowire);
     }
 
     private Object newComponentObject(Class<?> clazz) {
@@ -65,7 +65,7 @@ public class ComponentFactory {
     }
 
     private void autowireField(Object instance, Field field) {
-        Object dependency = applicationContainer.getComponentOfType(field.getType());
+        Object dependency = applicationContextContainer.getComponentOfType(field.getType());
         if (dependency != null) {
             field.setAccessible(true);
             try {
