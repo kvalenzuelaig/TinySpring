@@ -1,7 +1,8 @@
 # A Tiny Spring Framework
 
 Here, we will find an example of a simple framework that imitates the famous Spring. We will call it Tiny Spring. It should help us understand the basic concepts of the Spring Framework (and any other framework in Java or other languages).
-It implements the most essential features of a framework—namely,  Dependency Injection (DI) and Aspect-Oriented Programming (AOP) concepts.
+
+It implements the most essential features of a framework—namely,  Dependency Injection (DI) and Aspect-Oriented Programming (AOP).
 The project consists of the framework itself and a simple example of a REST API that uses it.
 
 ## The Application
