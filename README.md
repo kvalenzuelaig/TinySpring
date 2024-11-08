@@ -5,7 +5,9 @@ It implements the most essential features of a framework—namely,  Dependency I
 The project consists of the framework itself and a simple example of a REST API that uses it.
 
 ## The Application
-The application's entry point is the `MyExampleApplication` class situated at the root package `cat.tecnocampus`, while the rest is in the `cat.tecnocampus.application` package.
+The application's entry point is the `MyExampleApplication` class situated at the root package `cat.tecnocampus`, while the 
+rest is in the `cat.tecnocampus.application` package. The main of the application just calls the framework, via the run method,
+to start the application passing a reference to `MyExampleApplication` class.
 
 #### Components
 The application is a @RestController (MyController) that uses a @Service (MyService), which in turn uses a @Component (MyOtherService).
@@ -21,13 +23,16 @@ registers them in the application context.
 MyOtherService is annotated with @Validated and implements an interface (MyOtherServiceInterface) where the method `doSomething` is defined
 and its parameter is annotated with @Length. The framework uses AOP to intercept the call to the method `doSomething` and check if the parameter
 length is between a given number of characters interval.
+
+
 Note that it is the class that is annotated with @Validated, but it is the method's parameter in the interface that needs to be annotated 
 with @Length (not the parameter in the class). 
 This is something that we plan to improve in the future.
 
 ## The Framework
 It is composed of three main packages: the `core`, `validationAOP`, and `webModule`. It extensively uses Java annotations 
-and the reflexion library.
+and the reflexion library. It also defines an entry class `TinySpringFramework` with a method called `run` that performs all the
+necessarty steps to run the application.
 
 ### Core
 The Core is in charge of the Dependency Injection. Logically, it follows the steps:
@@ -57,7 +62,7 @@ identified as such.
 The validation AOP is in charge of the *aspect* of validating the parameters of the methods. It uses Java dynamic proxies 
 to intercept the method calls and check the parameters.
 
-#### Create the Proxy
+#### The Dynamic Proxy
 The framework creates a proxy for the classes annotated with @Validated. For creating a Dynamic Proxy, it is mandatory that the 
 class being proxied implements an interface so that Java can create the proxy. It follows these steps:
 1. During the scan process, it looks for the classes annotated with @Validated.
@@ -75,7 +80,27 @@ The *interceptor* is a Handler that implements the InvocationHandler interface. 
 We plan to add new annotations for validation in the near future.
 
 ### WebModule
+This is a fake and very simple web module that wants to imitate an Application Container like Tomcat.
 
+#### HttpRequest and HttpResponse
+The web module defines two classes that represent the request and the response of an HTTP request. The request contains a 
+method and a path, while the response contains a status code and a body.
+
+#### Handling a Request
+When it receives a request it performs three steps:
+1. It looks, in the application context, for a handler that can manage the request. Actually, it just looks for
+a class annotated with @RestController. 
+2. Once it has the handler, it looks for the method annotated with `@RequestMapping` that matches the request path.
+3. It calls the method and returns the response.
+
+#### `TinySpringFramework` class
+It represents the entry point to the framework and is call from the application. Once called, it performs all the necessary 
+steps to run the application. It follows these steps:
+1. Creates the application context.
+2. Creates the web server (a fake one).
+3. Performs a couple of calls to the web server to simulate the requests.
+
+This last step, in a real framework, would not belong here. These requests would be performed from a REST client.
 
 ## Bibliography 
 ### Other Tiny Spring Frameworks

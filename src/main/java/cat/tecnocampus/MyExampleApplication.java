@@ -1,10 +1,10 @@
 
 package cat.tecnocampus;
 
-import cat.tecnocampus.tinySpring.core.TinySpringApplication;
+import cat.tecnocampus.tinySpring.TinySpringFramework;
 
 public class MyExampleApplication {
     public static void main(String[] args) {
-        TinySpringApplication.run(MyExampleApplication.class, args);
+        TinySpringFramework.run(MyExampleApplication.class, args);
     }
 }
