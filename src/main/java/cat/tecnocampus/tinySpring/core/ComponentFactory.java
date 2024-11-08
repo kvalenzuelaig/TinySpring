@@ -61,11 +61,9 @@ public class ComponentFactory {
             else {
                 componentObject = clazz.getDeclaredConstructor().newInstance();
             }
-            //componentObject = clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //System.out.println("Component object: " + componentObject);
         return componentObject;
     }
 
