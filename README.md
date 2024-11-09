@@ -94,9 +94,9 @@ a class annotated with @RestController.
 3. It calls the method and returns the response.
 
 #### `TinySpringFramework` class
-It represents the entry point to the framework and is call from the application. Once called, it performs all the necessary 
-steps to run the application. It follows these steps:
-1. Asks the core to scan the application components and register them in the context.
+It represents the entry point to the framework and is called from the application. It performs all the necessary 
+steps to run the application:
+1. Asks the core to scan the application components, create the instances and register them in the context.
 2. Asks the AOP to create the proxies for the classes annotated with @Validated.
 3. Asks the core to inject the dependencies. It is important to do this after creating the proxies.
 2. Creates the web server (a fake one).
