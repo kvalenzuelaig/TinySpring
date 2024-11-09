@@ -1,10 +1,6 @@
 package cat.tecnocampus.tinySpring.core;
 
 import cat.tecnocampus.tinySpring.core.annotation.Autowired;
-
-import cat.tecnocampus.tinySpring.validationAOP.Validated;
-import cat.tecnocampus.tinySpring.validationAOP.ValidationHandler;
-import cat.tecnocampus.tinySpring.validationAOP.ValidationProxyFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,33 +30,17 @@ public class ComponentFactory {
         logComponentClasses(componentClasses);
         componentClasses.stream()
                 .map(this::newComponentObject) //instantiates an object for each class
-                .forEach(this::registerComponent);  //adds the object to the application context
-
-        applicationContextContainer.getComponents().forEach(this::autowire);
+                .forEach(o -> applicationContextContainer.register(o.getClass(), o));  //adds the object to the application context
     }
 
-    private void registerComponent(Object instance) {
-        if (Proxy.isProxyClass(instance.getClass())) {
-            ValidationHandler handler = (ValidationHandler) Proxy.getInvocationHandler(instance);
-            Class<?> targetClass = handler.getTarget().getClass().getInterfaces()[0];
-            logger.info("Registering validated component: {}", targetClass.getName());
-            applicationContextContainer.register(targetClass, instance);
-        } else {
-            logger.info("Registering component: {}", instance.getClass().getName());
-            applicationContextContainer.register(instance.getClass(), instance);
-        }
+    public void injectDependencies() {
+        applicationContextContainer.getComponents().forEach(this::autowire);
     }
 
     private Object newComponentObject(Class<?> clazz) {
         Object componentObject = null;
         try {
-            if (clazz.isAnnotationPresent(Validated.class)) {
-                logger.info("Validated component. Proxied: {}", clazz.getName());
-                componentObject = ValidationProxyFactory.createProxy(clazz.getDeclaredConstructor().newInstance());
-            }
-            else {
-                componentObject = clazz.getDeclaredConstructor().newInstance();
-            }
+            componentObject = clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }

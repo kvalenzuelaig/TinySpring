@@ -25,7 +25,6 @@ MyOtherService is annotated with @Validated and implements an interface (MyOther
 and its parameter is annotated with @Length. The framework uses AOP to intercept the call to the method `doSomething` and check if the parameter
 length is between a given number of characters interval.
 
-
 Note that it is the class that is annotated with @Validated, but it is the method's parameter in the interface that needs to be annotated 
 with @Length (not the parameter in the class). 
 This is something that we plan to improve in the future.
@@ -33,7 +32,7 @@ This is something that we plan to improve in the future.
 ## The Framework
 It is composed of three main packages: the `core`, `validationAOP`, and `webModule`. It extensively uses Java annotations 
 and the reflexion library. It also defines an entry class `TinySpringFramework` with a method called `run` that performs all the
-necessarty steps to run the application.
+necessary steps to run the application.
 
 ### Core
 The Core is in charge of the Dependency Injection. Logically, it follows the steps:
@@ -97,7 +96,9 @@ a class annotated with @RestController.
 #### `TinySpringFramework` class
 It represents the entry point to the framework and is call from the application. Once called, it performs all the necessary 
 steps to run the application. It follows these steps:
-1. Creates the application context.
+1. Asks the core to scan the application components and register them in the context.
+2. Asks the AOP to create the proxies for the classes annotated with @Validated.
+3. Asks the core to inject the dependencies. It is important to do this after creating the proxies.
 2. Creates the web server (a fake one).
 3. Performs a couple of calls to the web server to simulate the requests.
 
