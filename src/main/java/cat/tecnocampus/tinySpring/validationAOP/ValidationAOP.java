@@ -22,5 +22,6 @@ public class ValidationAOP {
         logger.info("Created proxy for class: {}", target.getClass().getName());
         Class<?> clazz = proxy.getClass().getInterfaces()[0];
         applicationContext.register(clazz, proxy);
+        applicationContext.unregister(target.getClass());
     }
 }

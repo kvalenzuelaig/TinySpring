@@ -12,8 +12,13 @@ public class ApplicationContextContainer {
     private final Logger logger = LoggerFactory.getLogger(ApplicationContextContainer.class);
 
     public void register(Class<?> clazz, Object instance) {
-        logger.info("Registering component: {}", clazz.getName());
+        logger.info("Registered component: {}", clazz.getName());
         instances.put(clazz, instance);
+    }
+
+    public void unregister(Class<?> clazz) {
+        logger.info("Unregistered component: {}", clazz.getName());
+        instances.remove(clazz);
     }
 
     public Object getComponentOfType(Class<?> clazz) {
