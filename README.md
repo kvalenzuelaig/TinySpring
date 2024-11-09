@@ -93,7 +93,7 @@ a class annotated with @RestController.
 2. Once it has the handler, it looks for the method annotated with `@RequestMapping` that matches the request path.
 3. It calls the method and returns the response.
 
-#### `TinySpringFramework` class
+### `TinySpringFramework` class
 It represents the entry point to the framework and is called from the application. It performs all the necessary 
 steps to run the application:
 1. Asks the core to scan the application components, create the instances and register them in the context.
