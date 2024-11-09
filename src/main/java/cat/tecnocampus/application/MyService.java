@@ -8,8 +8,7 @@ public class MyService {
     @Autowired
     MyOtherServiceInterface myOtherService;
 
-    public void doSomething(String param) {
-        System.out.println("MyService doing something with: " + param);
-        myOtherService.doSomething(param);
+    public String doSomething(String param) {
+        return myOtherService.doSomething(param + " MS");
     }
 }

@@ -23,7 +23,7 @@ public class TinySpringFramework {
         System.out.println(String.format("Response: status-> %s, body-> %s", response.getStatusCode(), response.getBody()));
 
         System.out.println();
-        request = new HttpRequest("GET", "/hello/learning TinySpring");
+        request = new HttpRequest("GET", "/hello/TinySpring");
         response = app.handleRequest(request);
         System.out.println(String.format("Response: status-> %s, body-> %s", response.getStatusCode(), response.getBody()));
     }

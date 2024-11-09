@@ -43,10 +43,10 @@ public class ComponentFactory {
         if (Proxy.isProxyClass(instance.getClass())) {
             ValidationHandler handler = (ValidationHandler) Proxy.getInvocationHandler(instance);
             Class<?> targetClass = handler.getTarget().getClass().getInterfaces()[0];
-            logger.info("Registering validated component: " + targetClass.getName());
+            logger.info("Registering validated component: {}", targetClass.getName());
             applicationContextContainer.register(targetClass, instance);
         } else {
-            logger.info("Registering component: " + instance.getClass().getName());
+            logger.info("Registering component: {}", instance.getClass().getName());
             applicationContextContainer.register(instance.getClass(), instance);
         }
     }
@@ -55,7 +55,7 @@ public class ComponentFactory {
         Object componentObject = null;
         try {
             if (clazz.isAnnotationPresent(Validated.class)) {
-                logger.info("Validating component: " + clazz.getName());
+                logger.info("Validated component. Proxied: {}", clazz.getName());
                 componentObject = ValidationProxyFactory.createProxy(clazz.getDeclaredConstructor().newInstance());
             }
             else {
@@ -104,6 +104,15 @@ public class ComponentFactory {
     }
 
     private void logAutowireInjection(Class<?> instance, Class<?> dependency) {
-        logger.info("Instance {} injected with dependency {}", instance.getName(), dependency.getName());
+        if (Proxy.isProxyClass(dependency)) {
+            Class<?>[] interfaces = dependency.getInterfaces();
+            if (interfaces.length > 0) {
+                logger.info("Instance {} injected with proxy dependency {} implementing interface {}", instance.getName(), dependency.getName(), interfaces[0].getName());
+            } else {
+                logger.info("Instance {} injected with proxy dependency {}", instance.getName(), dependency.getName());
+            }
+        } else {
+            logger.info("Instance {} injected with dependency {}", instance.getName(), dependency.getName());
+        }
     }
 }

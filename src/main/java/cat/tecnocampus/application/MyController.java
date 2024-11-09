@@ -15,11 +15,11 @@ public class MyController {
 
     @RequestMapping("/hello")
     public HttpResponse handleRequest(HttpRequest request) {
-        System.out.println("Handling request for path: " + request.getPath());
+        System.out.println("MyController -- Handling request for path: " + request.getPath());
         String param = getStringAfterLastSlash(request.getPath());
-        myService.doSomething(param);
+        String result = myService.doSomething(param);
 
-        Map<String, Object> responseBody = Map.of("message", "Hello, World!");
+        Map<String, Object> responseBody = Map.of("message", "Hello, World!", "result", result);
         return new HttpResponse(200, responseBody);
     }
 
